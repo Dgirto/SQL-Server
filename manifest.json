@@ -6,7 +6,7 @@
   "category": "database",
   "library": {
     "package": "ruvic-mssql-connector",
-    "install": "pip install git+https://github.com/Dgirto/conector-mssql.git#subdirectory=lib",
+    "install": "pip install git+https://github.com/Dgirto/SQL-Server.git#subdirectory=lib",
     "import_name": "ruvic_mssql_connector"
   },
   "auth_modes": [

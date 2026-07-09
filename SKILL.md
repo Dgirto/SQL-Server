@@ -19,7 +19,7 @@ triggers:
 
 # Conector SQL Server (ruvic_mssql_connector)
 
-Librería Python de solo lectura para Microsoft SQL Server. Está **preinstalada en el runtime** cuando el conector está configurado (si no, instálala con `pip install git+https://github.com/Dgirto/conector-mssql.git#subdirectory=lib`).
+Librería Python de solo lectura para Microsoft SQL Server. Está **preinstalada en el runtime** cuando el conector está configurado (si no, instálala con `pip install git+https://github.com/Dgirto/SQL-Server.git#subdirectory=lib`).
 
 ## Regla crítica de credenciales
 

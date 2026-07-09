@@ -7,7 +7,7 @@ plan ESTIMADO de ejecución de un query sin ejecutarlo.
 ## Instalación
 
 ```bash
-pip install git+https://github.com/Dgirto/conector-mssql.git#subdirectory=lib
+pip install git+https://github.com/Dgirto/SQL-Server.git#subdirectory=lib
 ```
 
 Python 3.10+. Dependencia única: `pymssql>=2.3,<3.0` (empaqueta FreeTDS, no

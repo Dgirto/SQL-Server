@@ -25,7 +25,7 @@ def test_connection() -> tuple[bool, str]:
             False,
             "La librería ruvic-mssql-connector no está instalada. "
             "Instala con: pip install git+https://github.com/Dgirto/"
-            "conector-mssql.git#subdirectory=lib",
+            "SQL-Server.git#subdirectory=lib",
         )
 
     try:
