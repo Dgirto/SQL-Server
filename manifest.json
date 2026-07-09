@@ -1,0 +1,70 @@
+{
+  "id": "mssql",
+  "name": "SQL Server",
+  "version": "1.0.0",
+  "description": "Consulta de solo lectura a bases de datos Microsoft SQL Server: tablas, datos, estadísticas y plan estimado de queries",
+  "category": "database",
+  "library": {
+    "package": "ruvic-mssql-connector",
+    "install": "pip install git+https://github.com/Dgirto/conector-mssql.git#subdirectory=lib",
+    "import_name": "ruvic_mssql_connector"
+  },
+  "auth_modes": [
+    {
+      "id": "user_password",
+      "label": "Usuario y contraseña (SQL Authentication)",
+      "fields": [
+        {
+          "key": "host",
+          "label": "Host",
+          "type": "text",
+          "required": true,
+          "placeholder": "db.empresa.com",
+          "help_text": "Hostname o IP del servidor SQL Server"
+        },
+        {
+          "key": "port",
+          "label": "Puerto",
+          "type": "number",
+          "required": true,
+          "default": "1433"
+        },
+        {
+          "key": "database",
+          "label": "Base de datos",
+          "type": "text",
+          "required": true,
+          "placeholder": "produccion"
+        },
+        {
+          "key": "username",
+          "label": "Usuario",
+          "type": "text",
+          "required": true,
+          "help_text": "Login de SQL Server (autenticación en modo mixto), se recomienda uno de solo lectura"
+        },
+        {
+          "key": "password",
+          "label": "Contraseña",
+          "type": "password",
+          "secret": true,
+          "required": true
+        },
+        {
+          "key": "connect_timeout",
+          "label": "Timeout de conexión (segundos)",
+          "type": "number",
+          "required": false,
+          "default": "10"
+        }
+      ]
+    }
+  ],
+  "env_prefix": "RUVIC_MSSQL_",
+  "operations": ["db.list_tables", "db.read", "db.stats", "db.explain"],
+  "test_connection": true,
+  "docs": {
+    "skill": "SKILL.md",
+    "permissions_note": "El login necesita permiso SELECT sobre el esquema/tablas a consultar y permiso SHOWPLAN para el plan estimado de queries. No se requieren permisos de escritura ni de administración."
+  }
+}

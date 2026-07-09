@@ -1,0 +1,426 @@
+/* ============================================================
+   ruvic.css — Hoja de estilos compartida para las guías de
+   documentación de conectores Ruvic.
+
+   REGLA: esta hoja es la plantilla oficial. Todas las guías de
+   conectores la reutilizan SIN modificarla, para que se vean
+   idénticas en estructura y estilo. Si necesitas un estilo
+   nuevo, propón el cambio aquí (afecta a todas las guías).
+
+   Paleta Ruvic:
+     Navy        #101630  — fondo principal / texto
+     Cream       #FDF2E1  — fondo claro / contraste
+     Red         #FF363A  — primario / acentos
+     Button Red  #FF4E46  — botones
+     Gold        #F2AF5E  — acento secundario
+
+   Tipografía: Syne (display/headings), sans-serif del sistema
+   para cuerpo.
+   ============================================================ */
+
+@import url("https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&display=swap");
+
+:root {
+  --ruvic-navy: #101630;
+  --ruvic-cream: #fdf2e1;
+  --ruvic-red: #ff363a;
+  --ruvic-btn-red: #ff4e46;
+  --ruvic-gold: #f2af5e;
+
+  --ruvic-navy-soft: #1a2142;
+  --ruvic-text: #101630;
+  --ruvic-text-muted: #4a5068;
+  --ruvic-border: rgba(16, 22, 48, 0.15);
+  --ruvic-code-bg: #101630;
+  --ruvic-code-text: #fdf2e1;
+
+  --font-display: "Syne", system-ui, sans-serif;
+  --font-body: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--ruvic-cream);
+  color: var(--ruvic-text);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+/* ---------- Cabecera ---------- */
+
+.ruvic-header {
+  background: var(--ruvic-navy);
+  color: var(--ruvic-cream);
+  padding: 2.5rem 1.5rem 2rem;
+}
+
+.ruvic-header-inner {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.ruvic-wordmark {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.1rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ruvic-gold);
+  margin: 0 0 1rem;
+}
+
+/* Si hay logo oficial, colócalo en assets/img/ y usa esta clase */
+.ruvic-logo {
+  height: 36px;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.ruvic-header h1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 2.1rem;
+  line-height: 1.2;
+  margin: 0 0 0.5rem;
+}
+
+.ruvic-header .subtitle {
+  color: rgba(253, 242, 225, 0.75);
+  margin: 0;
+  max-width: 640px;
+}
+
+.ruvic-header .meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+  font-size: 0.85rem;
+}
+
+.ruvic-badge {
+  display: inline-block;
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+  font-weight: 600;
+  background: rgba(242, 175, 94, 0.18);
+  color: var(--ruvic-gold);
+  border: 1px solid rgba(242, 175, 94, 0.4);
+}
+
+/* ---------- Selector de idioma ---------- */
+
+.lang-switch {
+  display: inline-flex;
+  gap: 0.25rem;
+  margin-top: 1.25rem;
+  background: rgba(253, 242, 225, 0.08);
+  border-radius: 999px;
+  padding: 0.25rem;
+}
+
+.lang-switch button {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  border: none;
+  background: transparent;
+  color: rgba(253, 242, 225, 0.7);
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.lang-switch button.active {
+  background: var(--ruvic-btn-red);
+  color: #fff;
+}
+
+/* Visibilidad por idioma: html[data-lang="es"] muestra .lang-es, etc. */
+html[data-lang="es"] .lang-en {
+  display: none !important;
+}
+
+html[data-lang="en"] .lang-es {
+  display: none !important;
+}
+
+/* ---------- Layout ---------- */
+
+.ruvic-container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+/* ---------- Índice ---------- */
+
+.ruvic-toc {
+  background: #fff;
+  border: 1px solid var(--ruvic-border);
+  border-left: 4px solid var(--ruvic-gold);
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.ruvic-toc h2 {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin: 0 0 0.75rem;
+  color: var(--ruvic-text-muted);
+}
+
+.ruvic-toc ol {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.ruvic-toc a {
+  color: var(--ruvic-red);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.ruvic-toc a:hover {
+  text-decoration: underline;
+}
+
+/* ---------- Secciones ---------- */
+
+section {
+  margin-bottom: 3rem;
+}
+
+h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--ruvic-navy);
+  border-bottom: 3px solid var(--ruvic-gold);
+  padding-bottom: 0.4rem;
+  margin: 0 0 1.25rem;
+}
+
+h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--ruvic-navy);
+  margin: 1.75rem 0 0.75rem;
+}
+
+a {
+  color: var(--ruvic-red);
+}
+
+/* ---------- Pasos numerados ---------- */
+
+.ruvic-steps {
+  counter-reset: step;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.ruvic-steps > li {
+  counter-increment: step;
+  position: relative;
+  padding: 0 0 1.5rem 3.25rem;
+  border-left: 2px solid var(--ruvic-border);
+  margin-left: 1.1rem;
+}
+
+.ruvic-steps > li:last-child {
+  border-left-color: transparent;
+}
+
+.ruvic-steps > li::before {
+  content: counter(step);
+  position: absolute;
+  left: -1.15rem;
+  top: 0;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 50%;
+  background: var(--ruvic-navy);
+  color: var(--ruvic-gold);
+  font-family: var(--font-display);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ruvic-steps strong:first-child {
+  color: var(--ruvic-navy);
+}
+
+/* ---------- Tablas ---------- */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--ruvic-border);
+  margin: 1rem 0;
+  font-size: 0.95rem;
+}
+
+th {
+  background: var(--ruvic-navy);
+  color: var(--ruvic-cream);
+  font-family: var(--font-display);
+  font-weight: 600;
+  text-align: left;
+  padding: 0.65rem 0.9rem;
+}
+
+td {
+  padding: 0.6rem 0.9rem;
+  border-top: 1px solid var(--ruvic-border);
+  vertical-align: top;
+}
+
+/* ---------- Código ---------- */
+
+code {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.88em;
+  background: rgba(16, 22, 48, 0.08);
+  padding: 0.12em 0.4em;
+  border-radius: 4px;
+}
+
+pre {
+  background: var(--ruvic-code-bg);
+  color: var(--ruvic-code-text);
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  overflow-x: auto;
+  line-height: 1.5;
+}
+
+pre code {
+  background: none;
+  padding: 0;
+  color: inherit;
+  font-size: 0.85rem;
+}
+
+/* ---------- Callouts ---------- */
+
+.callout {
+  border-radius: 10px;
+  padding: 0.9rem 1.15rem;
+  margin: 1rem 0;
+  border: 1px solid;
+  font-size: 0.95rem;
+}
+
+.callout-info {
+  background: rgba(242, 175, 94, 0.12);
+  border-color: var(--ruvic-gold);
+}
+
+.callout-warning {
+  background: rgba(255, 54, 58, 0.08);
+  border-color: var(--ruvic-red);
+}
+
+.callout .callout-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+/* ---------- Imágenes / capturas ---------- */
+
+figure {
+  margin: 1.25rem 0;
+}
+
+figure img {
+  max-width: 100%;
+  border-radius: 10px;
+  border: 1px solid var(--ruvic-border);
+  display: block;
+}
+
+figcaption {
+  font-size: 0.85rem;
+  color: var(--ruvic-text-muted);
+  margin-top: 0.4rem;
+}
+
+/* Placeholder mientras no hay captura real */
+.screenshot-placeholder {
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(16, 22, 48, 0.05),
+    rgba(16, 22, 48, 0.05) 12px,
+    rgba(16, 22, 48, 0.1) 12px,
+    rgba(16, 22, 48, 0.1) 24px
+  );
+  border: 2px dashed var(--ruvic-border);
+  border-radius: 10px;
+  padding: 3rem 1rem;
+  text-align: center;
+  color: var(--ruvic-text-muted);
+  font-size: 0.9rem;
+}
+
+/* ---------- Botones (referencia visual de la UI) ---------- */
+
+.ruvic-button {
+  display: inline-block;
+  background: var(--ruvic-btn-red);
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: 600;
+  padding: 0.5rem 1.25rem;
+  border-radius: 8px;
+  text-decoration: none;
+}
+
+/* ---------- Pie ---------- */
+
+.ruvic-footer {
+  background: var(--ruvic-navy);
+  color: rgba(253, 242, 225, 0.65);
+  text-align: center;
+  padding: 2rem 1.5rem;
+  font-size: 0.85rem;
+}
+
+.ruvic-footer .tagline {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--ruvic-gold);
+  margin-bottom: 0.5rem;
+}
+
+@media (max-width: 640px) {
+  .ruvic-header h1 {
+    font-size: 1.6rem;
+  }
+
+  .ruvic-steps > li {
+    padding-left: 2.5rem;
+  }
+}
