@@ -1,457 +1,520 @@
 <!DOCTYPE html>
-<html lang="es" data-lang="es">
+<html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Conector SQL Server — Guía de configuración | Ruvic</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title data-i18n="doc_title">Conector SQL Server — Ruvic</title>
   <link rel="stylesheet" href="assets/ruvic.css">
 </head>
-<body>
+<body class="guide">
+  <main class="ruvic-container">
 
-<header class="ruvic-header">
-  <div class="ruvic-header-inner">
-    <p class="ruvic-wordmark">Ruvic</p>
+    <nav class="ruvic-toc" aria-label="Índice">
+      <h2 data-i18n="toc_title">Contenido</h2>
+      <ol>
+        <li><a href="#que-es" data-i18n="toc.que_es">¿Qué es y para qué sirve?</a></li>
+        <li><a href="#prerrequisitos" data-i18n="toc.prerrequisitos">Prerrequisitos</a></li>
+        <li><a href="#configuracion-fabricante" data-i18n="toc.configuracion_fabricante">Configuración en el fabricante</a></li>
+        <li><a href="#permisos" data-i18n="toc.permisos">Permisos requeridos</a></li>
+        <li><a href="#configuracion-ruvic" data-i18n="toc.configuracion_ruvic">Configuración en Ruvic</a></li>
+        <li><a href="#verificacion" data-i18n="toc.verificacion">Verificación</a></li>
+        <li><a href="#solucion-problemas" data-i18n="toc.solucion_problemas">Solución de problemas</a></li>
+        <li><a href="#faq-seguridad" data-i18n="toc.faq_seguridad">Preguntas frecuentes y notas de seguridad</a></li>
+      </ol>
+    </nav>
 
-    <h1>
-      <span class="lang-es">Conector SQL Server — Guía de configuración</span>
-      <span class="lang-en">SQL Server Connector — Setup Guide</span>
-    </h1>
-    <p class="subtitle">
-      <span class="lang-es">Conecta tu base de datos Microsoft SQL Server a Ruvic Engine para que el agente consulte tablas, datos y estadísticas en modo solo lectura.</span>
-      <span class="lang-en">Connect your Microsoft SQL Server database to Ruvic Engine so the agent can query tables, data and statistics in read-only mode.</span>
-    </p>
+    <h1 data-i18n="guide_title">SQL Server</h1>
+    <p class="guide-updated">{{ULTIMA_ACTUALIZACION}}</p>
 
-    <div class="meta">
-      <span class="ruvic-badge">SQL Server</span>
-      <span class="ruvic-badge">
-        <span class="lang-es">Solo lectura</span>
-        <span class="lang-en">Read-only</span>
-      </span>
-      <span class="ruvic-badge">v1.0.0</span>
-    </div>
-
-    <div class="lang-switch" role="group" aria-label="Idioma / Language">
-      <button type="button" data-set-lang="es" class="active">ES</button>
-      <button type="button" data-set-lang="en">EN</button>
-    </div>
-  </div>
-</header>
-
-<main class="ruvic-container">
-
-  <!-- ============ ÍNDICE ============ -->
-  <nav class="ruvic-toc" aria-label="Índice">
-    <h2><span class="lang-es">Contenido</span><span class="lang-en">Contents</span></h2>
-    <ol>
-      <li><a href="#que-es"><span class="lang-es">¿Qué es y para qué sirve?</span><span class="lang-en">What is it and what is it for?</span></a></li>
-      <li><a href="#prerrequisitos"><span class="lang-es">Prerrequisitos</span><span class="lang-en">Prerequisites</span></a></li>
-      <li><a href="#fabricante"><span class="lang-es">Configuración en el fabricante (paso a paso)</span><span class="lang-en">Vendor-side setup (step by step)</span></a></li>
-      <li><a href="#permisos"><span class="lang-es">Permisos requeridos</span><span class="lang-en">Required permissions</span></a></li>
-      <li><a href="#ruvic"><span class="lang-es">Configuración en Ruvic</span><span class="lang-en">Setup in Ruvic</span></a></li>
-      <li><a href="#verificacion"><span class="lang-es">Verificación</span><span class="lang-en">Verification</span></a></li>
-      <li><a href="#problemas"><span class="lang-es">Solución de problemas</span><span class="lang-en">Troubleshooting</span></a></li>
-      <li><a href="#faq"><span class="lang-es">Preguntas frecuentes y notas de seguridad</span><span class="lang-en">FAQ and security notes</span></a></li>
-    </ol>
-  </nav>
-
-  <!-- ============ 1. QUÉ ES ============ -->
-  <section id="que-es">
-    <h2><span class="lang-es">1. ¿Qué es y para qué sirve?</span><span class="lang-en">1. What is it and what is it for?</span></h2>
-
-    <div class="lang-es">
-      <p>El conector SQL Server permite que el agente de Ruvic acceda a tu base de datos <strong>en modo solo lectura</strong>: puede consultar información, pero nunca modificarla. Una vez configurado, puedes pedirle al agente cosas como:</p>
+    <!-- ============ 1. QUÉ ES ============ -->
+    <section>
+      <h2 id="que-es" data-i18n="section.que_es">¿Qué es y para qué sirve?</h2>
+      <p data-i18n="que_es.body">El conector SQL Server permite que el agente de Ruvic acceda a tu base de datos <strong>en modo solo lectura</strong>: puede consultar información, pero nunca modificarla. Una vez configurado, puedes pedirle al agente cosas como:</p>
       <ul>
-        <li>“Genera un reporte con las ventas del último trimestre y envíalo por correo.”</li>
-        <li>“¿Cuántos clientes nuevos se registraron esta semana?”</li>
-        <li>“Revisa por qué este query está lento y proponme mejoras.”</li>
+        <li data-i18n="que_es.ej1">“Genera un reporte con las ventas del último trimestre y envíalo por correo.”</li>
+        <li data-i18n="que_es.ej2">“¿Cuántos clientes nuevos se registraron esta semana?”</li>
+        <li data-i18n="que_es.ej3">“Revisa por qué este query está lento y proponme mejoras.”</li>
       </ul>
-      <p>Operaciones soportadas:</p>
-    </div>
-    <div class="lang-en">
-      <p>The SQL Server connector lets the Ruvic agent access your database in <strong>read-only mode</strong>: it can query information but never modify it. Once configured, you can ask the agent things like:</p>
+      <p data-i18n="que_es.ops">Operaciones soportadas:</p>
+      <table>
+        <thead>
+          <tr>
+            <th data-i18n="table.operacion">Operación</th>
+            <th data-i18n="table.que_hace">Qué hace</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>db.list_tables</code></td>
+            <td data-i18n="ops.list_tables">Lista las tablas de la base de datos con su cantidad de filas</td>
+          </tr>
+          <tr>
+            <td><code>db.read</code></td>
+            <td data-i18n="ops.read">Lee los datos de una tabla (con límite de filas)</td>
+          </tr>
+          <tr>
+            <td><code>db.stats</code></td>
+            <td data-i18n="ops.stats">Estadísticas de una tabla: filas, tamaño, columnas y tipos</td>
+          </tr>
+          <tr>
+            <td><code>db.explain</code></td>
+            <td data-i18n="ops.explain">Analiza el plan ESTIMADO de ejecución de una consulta sin ejecutarla</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="callout callout-info">
+        <span class="callout-title" data-i18n="que_es.callout.title">Solo lectura, por diseño</span>
+        <span data-i18n="que_es.callout.body">El login dedicado del conector solo tiene permiso <code>SELECT</code> (y <code>SHOWPLAN</code> para analizar queries). Aunque el agente lo intentara, el servidor rechazaría cualquier escritura.</span>
+      </div>
+    </section>
+
+    <!-- ============ 2. PRERREQUISITOS ============ -->
+    <section>
+      <h2 id="prerrequisitos" data-i18n="section.prerrequisitos">Prerrequisitos</h2>
       <ul>
-        <li>“Build a report with last quarter's sales and email it.”</li>
-        <li>“How many new customers signed up this week?”</li>
-        <li>“Check why this query is slow and suggest improvements.”</li>
+        <li data-i18n="prer.db">Una instancia de <strong>Microsoft SQL Server 2016 o superior</strong> (on-premise, Azure SQL Database/Managed Instance, AWS RDS for SQL Server, o Docker).</li>
+        <li data-i18n="prer.admin">Acceso administrativo a la instancia (rol <code>sysadmin</code> o equivalente), solo durante la configuración inicial.</li>
+        <li data-i18n="prer.mixed"><strong>Autenticación en modo mixto habilitada</strong> (SQL Server and Windows Authentication mode) — el conector usa usuario/contraseña, no autenticación de Windows.</li>
+        <li data-i18n="prer.red"><strong>Acceso de red</strong> desde la plataforma Ruvic al servidor (host y puerto alcanzables; regla de firewall si aplica).</li>
+        <li data-i18n="prer.datos">Los datos de conexión: host, puerto (por defecto <code>1433</code>) y nombre de la base de datos.</li>
       </ul>
-      <p>Supported operations:</p>
-    </div>
+    </section>
 
-    <table>
-      <thead>
-        <tr>
-          <th><span class="lang-es">Operación</span><span class="lang-en">Operation</span></th>
-          <th><span class="lang-es">Qué hace</span><span class="lang-en">What it does</span></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><code>db.list_tables</code></td>
-          <td><span class="lang-es">Lista las tablas de la base de datos con su cantidad de filas</span><span class="lang-en">Lists the database tables with their row counts</span></td>
-        </tr>
-        <tr>
-          <td><code>db.read</code></td>
-          <td><span class="lang-es">Lee los datos de una tabla (con límite de filas)</span><span class="lang-en">Reads data from a table (with a row limit)</span></td>
-        </tr>
-        <tr>
-          <td><code>db.stats</code></td>
-          <td><span class="lang-es">Estadísticas de una tabla: filas, tamaño, columnas y tipos</span><span class="lang-en">Table statistics: rows, size, columns and types</span></td>
-        </tr>
-        <tr>
-          <td><code>db.explain</code></td>
-          <td><span class="lang-es">Analiza el plan ESTIMADO de ejecución de una consulta sin ejecutarla</span><span class="lang-en">Analyzes a query's ESTIMATED execution plan without running it</span></td>
-        </tr>
-      </tbody>
-    </table>
-
-    <div class="callout callout-info">
-      <span class="callout-title"><span class="lang-es">Solo lectura, por diseño</span><span class="lang-en">Read-only by design</span></span>
-      <span class="lang-es">El login dedicado del conector solo tiene permiso <code>SELECT</code> (y <code>SHOWPLAN</code> para analizar queries). Aunque el agente lo intentara, el servidor rechazaría cualquier escritura.</span>
-      <span class="lang-en">The connector's dedicated login only has <code>SELECT</code> permission (and <code>SHOWPLAN</code> to analyze queries). Even if the agent tried, the server would reject any write.</span>
-    </div>
-  </section>
-
-  <!-- ============ 2. PRERREQUISITOS ============ -->
-  <section id="prerrequisitos">
-    <h2><span class="lang-es">2. Prerrequisitos</span><span class="lang-en">2. Prerequisites</span></h2>
-
-    <div class="lang-es">
-      <ul>
-        <li>Una instancia de <strong>Microsoft SQL Server 2016 o superior</strong> (on-premise, Azure SQL Database/Managed Instance, AWS RDS for SQL Server, o Docker).</li>
-        <li>Acceso administrativo a la instancia (rol <code>sysadmin</code> o equivalente), solo durante la configuración inicial.</li>
-        <li><strong>Autenticación en modo mixto habilitada</strong> (SQL Server and Windows Authentication mode) — el conector usa usuario/contraseña, no autenticación de Windows.</li>
-        <li><strong>Acceso de red</strong> desde la plataforma Ruvic al servidor (host y puerto alcanzables; regla de firewall si aplica).</li>
-        <li>Los datos de conexión: host, puerto (por defecto <code>1433</code>) y nombre de la base de datos.</li>
-      </ul>
-    </div>
-    <div class="lang-en">
-      <ul>
-        <li>A <strong>Microsoft SQL Server 2016+</strong> instance (on-premise, Azure SQL Database/Managed Instance, AWS RDS for SQL Server, or Docker).</li>
-        <li>Administrative access to the instance (<code>sysadmin</code> role or equivalent), only during initial setup.</li>
-        <li><strong>Mixed mode authentication enabled</strong> (SQL Server and Windows Authentication mode) — the connector uses username/password, not Windows authentication.</li>
-        <li><strong>Network access</strong> from the Ruvic platform to the server (reachable host and port; firewall rule if applicable).</li>
-        <li>The connection details: host, port (default <code>1433</code>) and database name.</li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- ============ 3. CONFIGURACIÓN EN EL FABRICANTE ============ -->
-  <section id="fabricante">
-    <h2><span class="lang-es">3. Configuración en el fabricante (paso a paso)</span><span class="lang-en">3. Vendor-side setup (step by step)</span></h2>
-
-    <div class="lang-es">
-      <p>Vas a crear un <strong>login dedicado de solo lectura</strong> para Ruvic. No uses el login <code>sa</code> ni el de tu aplicación: un login dedicado permite auditar la actividad del agente y limitar el acceso al mínimo.</p>
-    </div>
-    <div class="lang-en">
-      <p>You will create a <strong>dedicated read-only login</strong> for Ruvic. Do not reuse the <code>sa</code> login or an application login: a dedicated login lets you audit the agent's activity and keep access to a minimum.</p>
-    </div>
-
-    <ol class="ruvic-steps">
-      <li>
-        <div class="lang-es">
-          <strong>Habilita la autenticación en modo mixto (si no lo está).</strong>
-          <p>En SQL Server Management Studio (SSMS): clic derecho sobre el servidor → <em>Properties</em> → <em>Security</em> → selecciona <strong>SQL Server and Windows Authentication mode</strong> → Aceptar → reinicia el servicio de SQL Server.</p>
-        </div>
-        <div class="lang-en">
-          <strong>Enable mixed mode authentication (if not already).</strong>
-          <p>In SQL Server Management Studio (SSMS): right-click the server → <em>Properties</em> → <em>Security</em> → select <strong>SQL Server and Windows Authentication mode</strong> → OK → restart the SQL Server service.</p>
-        </div>
-        <div class="screenshot-placeholder">
-          <span class="lang-es">[ Captura: pantalla de Security en Server Properties con el modo mixto seleccionado — reemplazar por assets/img/mssql-mixed-mode.png ]</span>
-          <span class="lang-en">[ Screenshot: Security page in Server Properties with mixed mode selected — replace with assets/img/mssql-mixed-mode.png ]</span>
-        </div>
-      </li>
-
-      <li>
-        <div class="lang-es">
-          <strong>Conéctate a la instancia como administrador.</strong>
-          <p>Usa SSMS, Azure Data Studio o <code>sqlcmd</code> con un login administrador:</p>
-        </div>
-        <div class="lang-en">
-          <strong>Connect to the instance as an administrator.</strong>
-          <p>Use SSMS, Azure Data Studio or <code>sqlcmd</code> with an admin login:</p>
-        </div>
+    <!-- ============ 3. CONFIGURACIÓN EN EL FABRICANTE ============ -->
+    <section>
+      <h2 id="configuracion-fabricante" data-i18n="section.configuracion_fabricante">Configuración en el fabricante</h2>
+      <p data-i18n="fab.intro">Vas a crear un <strong>login dedicado de solo lectura</strong> para Ruvic. No uses el login <code>sa</code> ni el de tu aplicación: un login dedicado permite auditar la actividad del agente y limitar el acceso al mínimo.</p>
+      <ol class="ruvic-steps">
+        <li>
+          <strong data-i18n="fab.p1.t">Habilita la autenticación en modo mixto (si no lo está).</strong>
+          <p data-i18n="fab.p1.b">En SQL Server Management Studio (SSMS): clic derecho sobre el servidor → <em>Properties</em> → <em>Security</em> → selecciona <strong>SQL Server and Windows Authentication mode</strong> → Aceptar → reinicia el servicio de SQL Server.</p>
+          <div class="screenshot-placeholder" data-i18n="fab.p1.img">[ Captura: pantalla de Security en Server Properties con el modo mixto seleccionado — reemplazar por assets/img/mssql-mixed-mode.png ]</div>
+        </li>
+        <li>
+          <strong data-i18n="fab.p2.t">Conéctate a la instancia como administrador.</strong>
+          <p data-i18n="fab.p2.b">Usa SSMS, Azure Data Studio o <code>sqlcmd</code> con un login administrador:</p>
 <pre><code>sqlcmd -S TU_HOST,1433 -U sa -P TU_CONTRASEÑA_ADMIN</code></pre>
-      </li>
-
-      <li>
-        <div class="lang-es">
-          <strong>Crea el login y el usuario de solo lectura para Ruvic.</strong>
-          <p>Elige una contraseña fuerte (mínimo 16 caracteres, generada aleatoriamente; SQL Server exige que cumpla la política de complejidad) y guárdala: la usarás en el formulario de Ruvic (campo <em>Contraseña</em>).</p>
-        </div>
-        <div class="lang-en">
-          <strong>Create the read-only login and user for Ruvic.</strong>
-          <p>Choose a strong password (16+ random characters; SQL Server enforces its complexity policy) and save it: you will paste it into the Ruvic form (<em>Password</em> field).</p>
-        </div>
+        </li>
+        <li>
+          <strong data-i18n="fab.p3.t">Crea el login y el usuario de solo lectura para Ruvic.</strong>
+          <p data-i18n="fab.p3.b">Elige una contraseña fuerte (mínimo 16 caracteres, generada aleatoriamente; SQL Server exige que cumpla la política de complejidad) y guárdala: la usarás en el formulario de Ruvic (campo Contraseña).</p>
 <pre><code>CREATE LOGIN ruvic_reader WITH PASSWORD = 'CAMBIA_ESTA_CONTRASEÑA';
 
 USE tu_base_de_datos;
 CREATE USER ruvic_reader FOR LOGIN ruvic_reader;</code></pre>
-      </li>
-
-      <li>
-        <div class="lang-es">
-          <strong>Otorga los permisos de lectura y de plan de ejecución.</strong>
-          <p>Sobre el esquema que quieras exponer al agente (el ejemplo usa <code>dbo</code>; repite para otros esquemas):</p>
-        </div>
-        <div class="lang-en">
-          <strong>Grant read and execution-plan permissions.</strong>
-          <p>On the schema you want to expose to the agent (the example uses <code>dbo</code>; repeat for other schemas):</p>
-        </div>
+        </li>
+        <li>
+          <strong data-i18n="fab.p4.t">Otorga los permisos de lectura y de plan de ejecución.</strong>
+          <p data-i18n="fab.p4.b">Sobre el esquema que quieras exponer al agente (el ejemplo usa <code>dbo</code>; repite para otros esquemas):</p>
 <pre><code>GRANT SELECT ON SCHEMA::dbo TO ruvic_reader;
 GRANT SHOWPLAN TO ruvic_reader;</code></pre>
-        <div class="callout callout-info">
-          <span class="callout-title"><span class="lang-es">Nota</span><span class="lang-en">Note</span></span>
-          <span class="lang-es"><code>GRANT SELECT ON SCHEMA::dbo</code> aplica automáticamente a las tablas que se creen después en ese esquema, sin repetir el GRANT. <code>SHOWPLAN</code> permite ver el plan de un query sin ejecutarlo ni dar permiso de escritura.</span>
-          <span class="lang-en"><code>GRANT SELECT ON SCHEMA::dbo</code> automatically covers tables created afterwards in that schema, without re-running the GRANT. <code>SHOWPLAN</code> allows viewing a query's plan without executing it or granting write access.</span>
-        </div>
-      </li>
-
-      <li>
-        <div class="lang-es">
-          <strong>Habilita el protocolo TCP/IP y el acceso de red desde Ruvic.</strong>
-          <p>Muchas instalaciones traen TCP/IP deshabilitado por defecto:</p>
+          <div class="callout callout-info">
+            <span class="callout-title" data-i18n="fab.p4.note.title">Nota</span>
+            <span data-i18n="fab.p4.note.body"><code>GRANT SELECT ON SCHEMA::dbo</code> aplica automáticamente a las tablas que se creen después en ese esquema, sin repetir el GRANT. <code>SHOWPLAN</code> permite ver el plan de un query sin ejecutarlo ni dar permiso de escritura.</span>
+          </div>
+        </li>
+        <li>
+          <strong data-i18n="fab.p5.t">Habilita el protocolo TCP/IP y el acceso de red desde Ruvic.</strong>
+          <p data-i18n="fab.p5.b">Muchas instalaciones traen TCP/IP deshabilitado por defecto:</p>
           <ul>
-            <li><strong>Servidor propio</strong>: abre <em>SQL Server Configuration Manager</em> → <em>SQL Server Network Configuration</em> → <em>Protocols for [tu instancia]</em> → habilita <strong>TCP/IP</strong> → reinicia el servicio. Luego permite el puerto <code>1433</code> en el firewall de Windows para la IP de Ruvic.</li>
-            <li><strong>Azure SQL / AWS RDS</strong>: agrega la IP de la plataforma Ruvic en el firewall de Azure SQL o en el security group de RDS.</li>
+            <li data-i18n="fab.p5.li1"><strong>Servidor propio</strong>: abre <em>SQL Server Configuration Manager</em> → <em>SQL Server Network Configuration</em> → <em>Protocols for [tu instancia]</em> → habilita <strong>TCP/IP</strong> → reinicia el servicio. Luego permite el puerto <code>1433</code> en el firewall de Windows para la IP de Ruvic.</li>
+            <li data-i18n="fab.p5.li2"><strong>Azure SQL / AWS RDS</strong>: agrega la IP de la plataforma Ruvic en el firewall de Azure SQL o en el security group de RDS.</li>
           </ul>
-        </div>
-        <div class="lang-en">
-          <strong>Enable the TCP/IP protocol and network access from Ruvic.</strong>
-          <p>Many installations ship with TCP/IP disabled by default:</p>
-          <ul>
-            <li><strong>Self-hosted</strong>: open <em>SQL Server Configuration Manager</em> → <em>SQL Server Network Configuration</em> → <em>Protocols for [your instance]</em> → enable <strong>TCP/IP</strong> → restart the service. Then allow port <code>1433</code> in the Windows firewall for the Ruvic IP.</li>
-            <li><strong>Azure SQL / AWS RDS</strong>: add the Ruvic platform IP to the Azure SQL firewall or the RDS security group.</li>
-          </ul>
-        </div>
-        <div class="screenshot-placeholder">
-          <span class="lang-es">[ Captura: SQL Server Configuration Manager con TCP/IP habilitado — reemplazar por assets/img/mssql-tcpip.png ]</span>
-          <span class="lang-en">[ Screenshot: SQL Server Configuration Manager with TCP/IP enabled — replace with assets/img/mssql-tcpip.png ]</span>
-        </div>
-      </li>
-
-      <li>
-        <div class="lang-es">
-          <strong>Verifica el login desde fuera del servidor.</strong>
-          <p>Desde una máquina distinta al servidor de BD (idealmente con salida de red similar a la de Ruvic):</p>
-        </div>
-        <div class="lang-en">
-          <strong>Verify the login from outside the server.</strong>
-          <p>From a machine other than the DB server (ideally with network egress similar to Ruvic's):</p>
-        </div>
+          <div class="screenshot-placeholder" data-i18n="fab.p5.img">[ Captura: SQL Server Configuration Manager con TCP/IP habilitado — reemplazar por assets/img/mssql-tcpip.png ]</div>
+        </li>
+        <li>
+          <strong data-i18n="fab.p6.t">Verifica el login desde fuera del servidor.</strong>
+          <p data-i18n="fab.p6.b">Desde una máquina distinta al servidor de BD (idealmente con salida de red similar a la de Ruvic):</p>
 <pre><code>sqlcmd -S TU_HOST,1433 -U ruvic_reader -P TU_CONTRASEÑA -Q "SELECT 1"</code></pre>
-        <div class="lang-es"><p>Si responde <code>1</code>, el fabricante quedó listo. Anota estos valores para la siguiente sección: host, puerto, base de datos, usuario y contraseña.</p></div>
-        <div class="lang-en"><p>If it returns <code>1</code>, the vendor side is ready. Write down these values for the next section: host, port, database, user and password.</p></div>
-      </li>
-    </ol>
-  </section>
+          <p data-i18n="fab.p6.result">Si responde <code>1</code>, el fabricante quedó listo. Anota estos valores para la siguiente sección: host, puerto, base de datos, usuario y contraseña.</p>
+        </li>
+      </ol>
+    </section>
 
-  <!-- ============ 4. PERMISOS ============ -->
-  <section id="permisos">
-    <h2><span class="lang-es">4. Permisos requeridos</span><span class="lang-en">4. Required permissions</span></h2>
+    <!-- ============ 4. PERMISOS ============ -->
+    <section>
+      <h2 id="permisos" data-i18n="section.permisos">Permisos requeridos</h2>
+      <p data-i18n="perm.intro">Principio de mínimo privilegio: el login de Ruvic solo necesita estos permisos. No otorgues roles <code>sysadmin</code>, <code>db_owner</code>, de escritura ni de administración.</p>
+      <table>
+        <thead>
+          <tr>
+            <th data-i18n="table.permiso">Permiso</th>
+            <th data-i18n="table.para_que">Para qué sirve</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>SELECT</code> <span data-i18n="perm.select.scope">(por esquema)</span></td>
+            <td data-i18n="perm.select.body">Leer datos (<code>db.read</code>), contar filas y calcular estadísticas (<code>db.stats</code>)</td>
+          </tr>
+          <tr>
+            <td><code>SHOWPLAN</code></td>
+            <td data-i18n="perm.showplan.body">Compilar y ver el plan estimado de un query sin ejecutarlo (<code>db.explain</code>)</td>
+          </tr>
+        </tbody>
+      </table>
+      <p data-i18n="perm.catalog">Las vistas de catálogo que usa el conector (<code>sys.tables</code>, <code>sys.columns</code>, <code>sys.partitions</code>, <code>sys.allocation_units</code>) son visibles para cualquier login con algún permiso sobre el objeto correspondiente; no requieren <code>VIEW SERVER STATE</code> ni permisos adicionales.</p>
+    </section>
 
-    <div class="lang-es">
-      <p>Principio de mínimo privilegio: el login de Ruvic solo necesita estos permisos. No otorgues roles <code>sysadmin</code>, <code>db_owner</code>, de escritura ni de administración.</p>
-    </div>
-    <div class="lang-en">
-      <p>Least-privilege principle: the Ruvic login only needs these permissions. Do not grant <code>sysadmin</code>, <code>db_owner</code>, write or admin roles.</p>
-    </div>
+    <!-- ============ 5. CONFIGURACIÓN EN RUVIC ============ -->
+    <section>
+      <h2 id="configuracion-ruvic" data-i18n="section.configuracion_ruvic">Configuración en Ruvic</h2>
+      <p data-i18n="ruvic.intro">Entra a <strong>Settings → Conectores</strong>, busca la tarjeta <strong>SQL Server</strong> y pulsa <strong>Configurar</strong>. Diligencia el formulario con los valores que obtuviste en la sección anterior:</p>
+      <table>
+        <thead>
+          <tr>
+            <th data-i18n="table.campo">Campo del formulario</th>
+            <th data-i18n="table.valor">Valor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-i18n="ruvic.f.host">Host</td>
+            <td data-i18n="ruvic.v.host">Hostname o IP del servidor (ej. <code>db.empresa.com</code>)</td>
+          </tr>
+          <tr>
+            <td data-i18n="ruvic.f.puerto">Puerto</td>
+            <td><code>1433</code> <span data-i18n="ruvic.v.puerto">(salvo configuración distinta)</span></td>
+          </tr>
+          <tr>
+            <td data-i18n="ruvic.f.bd">Base de datos</td>
+            <td data-i18n="ruvic.v.bd">Nombre de la base de datos a consultar</td>
+          </tr>
+          <tr>
+            <td data-i18n="ruvic.f.usuario">Usuario</td>
+            <td><code>ruvic_reader</code></td>
+          </tr>
+          <tr>
+            <td data-i18n="ruvic.f.pass">Contraseña</td>
+            <td data-i18n="ruvic.v.pass">La contraseña del paso 3. Se guarda cifrada como secreto: la interfaz no volverá a mostrarla</td>
+          </tr>
+          <tr>
+            <td data-i18n="ruvic.f.timeout">Timeout de conexión</td>
+            <td data-i18n="ruvic.v.timeout">Opcional; <code>10</code> segundos por defecto</td>
+          </tr>
+        </tbody>
+      </table>
+      <p data-i18n="ruvic.save">Guarda y pulsa <span class="ruvic-button">Probar conexión</span> — la plataforma se conectará a tu base de datos y confirmará que las credenciales y la red funcionan.</p>
+      <div class="screenshot-placeholder" data-i18n="ruvic.img">[ Captura: formulario del conector SQL Server en Settings → Conectores — reemplazar por assets/img/mssql-form.png ]</div>
+    </section>
 
-    <table>
-      <thead>
-        <tr>
-          <th><span class="lang-es">Permiso</span><span class="lang-en">Permission</span></th>
-          <th><span class="lang-es">Para qué lo usa el conector</span><span class="lang-en">Why the connector needs it</span></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><code>SELECT</code> <span class="lang-es">(por esquema)</span><span class="lang-en">(per schema)</span></td>
-          <td><span class="lang-es">Leer datos (<code>db.read</code>), contar filas y calcular estadísticas (<code>db.stats</code>)</span><span class="lang-en">Read data (<code>db.read</code>), count rows and compute statistics (<code>db.stats</code>)</span></td>
-        </tr>
-        <tr>
-          <td><code>SHOWPLAN</code></td>
-          <td><span class="lang-es">Compilar y ver el plan estimado de un query sin ejecutarlo (<code>db.explain</code>)</span><span class="lang-en">Compile and view a query's estimated plan without executing it (<code>db.explain</code>)</span></td>
-        </tr>
-      </tbody>
-    </table>
+    <!-- ============ 6. VERIFICACIÓN ============ -->
+    <section>
+      <h2 id="verificacion" data-i18n="section.verificacion">Verificación</h2>
+      <ol class="ruvic-steps">
+        <li>
+          <strong data-i18n="ver.p1.t">Test de conexión exitoso.</strong>
+          <p data-i18n="ver.p1.b">El botón <em>Probar conexión</em> debe responder: <em>“Conexión exitosa a tu-host:1433/tu_base”</em>. La tarjeta del conector cambia a estado <strong>Configurado</strong>.</p>
+        </li>
+        <li>
+          <strong data-i18n="ver.p2.t">Automatización mínima de prueba.</strong>
+          <p data-i18n="ver.p2.b">Abre una conversación nueva con el agente y pídele: <em>“Lista las tablas de la base de datos SQL Server y dime cuántas filas tiene cada una.”</em> El agente debe responder con el listado real de tus tablas. Si lo hace, el conector quedó operativo de punta a punta.</p>
+        </li>
+      </ol>
+    </section>
 
-    <div class="lang-es"><p>Las vistas de catálogo que usa el conector (<code>sys.tables</code>, <code>sys.columns</code>, <code>sys.partitions</code>, <code>sys.allocation_units</code>) son visibles para cualquier login con algún permiso sobre el objeto correspondiente; no requieren <code>VIEW SERVER STATE</code> ni permisos adicionales.</p></div>
-    <div class="lang-en"><p>The catalog views the connector uses (<code>sys.tables</code>, <code>sys.columns</code>, <code>sys.partitions</code>, <code>sys.allocation_units</code>) are visible to any login with some permission on the corresponding object; they don't require <code>VIEW SERVER STATE</code> or extra permissions.</p></div>
-  </section>
+    <!-- ============ 7. SOLUCIÓN DE PROBLEMAS ============ -->
+    <section>
+      <h2 id="solucion-problemas" data-i18n="section.solucion_problemas">Solución de problemas</h2>
+      <table>
+        <thead>
+          <tr>
+            <th data-i18n="table.sintoma">Mensaje / síntoma</th>
+            <th data-i18n="table.causa">Causa probable y solución</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-i18n="prob.s1">“Autenticación fallida: usuario o contraseña inválidos”</td>
+            <td data-i18n="prob.c1">Contraseña mal copiada, login inexistente, o la autenticación en modo mixto no está habilitada (revisa el paso 1 de la sección 3). Reintenta y vuelve a guardar el formulario (deja la contraseña vacía para conservar la anterior o escribe la nueva para reemplazarla).</td>
+          </tr>
+          <tr>
+            <td data-i18n="prob.s2">“No se pudo conectar … (timeout)”</td>
+            <td data-i18n="prob.c2">La plataforma no alcanza el host/puerto. Revisa el paso 5 (TCP/IP habilitado, firewall, security group) y que el host no sea <code>localhost</code> (debe ser accesible desde Ruvic, no desde tu equipo).</td>
+          </tr>
+          <tr>
+            <td data-i18n="prob.s3">“La base de datos 'X' no existe”</td>
+            <td data-i18n="prob.c3">Nombre de base de datos mal escrito en el formulario, o el usuario no fue creado en esa base (recuerda: <code>CREATE USER</code> se ejecuta dentro de <code>USE tu_base_de_datos;</code>). Verifica con <code>SELECT name FROM sys.databases;</code>.</td>
+          </tr>
+          <tr>
+            <td data-i18n="prob.s4">El agente ve las tablas pero “permission was denied” al leer una</td>
+            <td data-i18n="prob.c4">Falta el <code>GRANT SELECT</code> sobre ese esquema. Repite el paso 4 de la sección 3.</td>
+          </tr>
+          <tr>
+            <td data-i18n="prob.s5">“The user does not have permission to perform this action” al analizar un query</td>
+            <td data-i18n="prob.c5">Falta <code>GRANT SHOWPLAN</code>. Repite el paso 4 de la sección 3.</td>
+          </tr>
+          <tr>
+            <td data-i18n="prob.s6">El conector aparece “Sin configurar” tras guardar</td>
+            <td data-i18n="prob.c6">Algún campo obligatorio quedó vacío. Ábrelo de nuevo y completa host, puerto, base de datos, usuario y contraseña.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
 
-  <!-- ============ 5. CONFIGURACIÓN EN RUVIC ============ -->
-  <section id="ruvic">
-    <h2><span class="lang-es">5. Configuración en Ruvic</span><span class="lang-en">5. Setup in Ruvic</span></h2>
+    <!-- ============ 8. FAQ Y SEGURIDAD ============ -->
+    <section>
+      <h2 id="faq-seguridad" data-i18n="section.faq_seguridad">Preguntas frecuentes y notas de seguridad</h2>
 
-    <div class="lang-es">
-      <p>Entra a <strong>Settings → Conectores</strong>, busca la tarjeta <strong>SQL Server</strong> y pulsa <strong>Configurar</strong>. Diligencia el formulario con los valores que obtuviste en la sección 3:</p>
-    </div>
-    <div class="lang-en">
-      <p>Go to <strong>Settings → Connectors</strong>, find the <strong>SQL Server</strong> card and click <strong>Configure</strong>. Fill in the form with the values from section 3:</p>
-    </div>
+      <h3 data-i18n="faq.q1">¿El agente puede modificar o borrar datos?</h3>
+      <p data-i18n="faq.a1">No. El login <code>ruvic_reader</code> solo tiene permiso <code>SELECT</code> y <code>SHOWPLAN</code>. El conector nunca ejecuta sentencias de escritura, y aunque lo intentara, el servidor la rechazaría por permisos.</p>
 
-    <table>
-      <thead>
-        <tr>
-          <th><span class="lang-es">Campo del formulario</span><span class="lang-en">Form field</span></th>
-          <th><span class="lang-es">Valor (obtenido en la sección 3)</span><span class="lang-en">Value (from section 3)</span></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><span class="lang-es">Host</span><span class="lang-en">Host</span></td>
-          <td><span class="lang-es">Hostname o IP del servidor (ej. <code>db.empresa.com</code>)</span><span class="lang-en">Server hostname or IP (e.g. <code>db.company.com</code>)</span></td>
-        </tr>
-        <tr>
-          <td><span class="lang-es">Puerto</span><span class="lang-en">Port</span></td>
-          <td><code>1433</code> <span class="lang-es">(salvo configuración distinta)</span><span class="lang-en">(unless configured otherwise)</span></td>
-        </tr>
-        <tr>
-          <td><span class="lang-es">Base de datos</span><span class="lang-en">Database</span></td>
-          <td><span class="lang-es">Nombre de la base de datos a consultar</span><span class="lang-en">Name of the database to query</span></td>
-        </tr>
-        <tr>
-          <td><span class="lang-es">Usuario</span><span class="lang-en">Username</span></td>
-          <td><code>ruvic_reader</code></td>
-        </tr>
-        <tr>
-          <td><span class="lang-es">Contraseña</span><span class="lang-en">Password</span></td>
-          <td><span class="lang-es">La contraseña del paso 3. Se guarda cifrada como secreto: la interfaz no volverá a mostrarla</span><span class="lang-en">The password from step 3. Stored as a secret: the UI will never display it again</span></td>
-        </tr>
-        <tr>
-          <td><span class="lang-es">Timeout de conexión</span><span class="lang-en">Connection timeout</span></td>
-          <td><span class="lang-es">Opcional; <code>10</code> segundos por defecto</span><span class="lang-en">Optional; defaults to <code>10</code> seconds</span></td>
-        </tr>
-      </tbody>
-    </table>
+      <h3 data-i18n="faq.q2">¿Dónde queda guardada la contraseña?</h3>
+      <p data-i18n="faq.a2">Como secreto en el almacén de credenciales de la plataforma, asociado a tu usuario. La interfaz nunca vuelve a mostrarla; solo indica “definida”. Para cambiarla, escribe una nueva en el formulario; para conservarla al editar otros campos, deja el campo vacío.</p>
 
-    <div class="lang-es"><p>Guarda y pulsa <span class="ruvic-button">Probar conexión</span> — la plataforma se conectará a tu base de datos y confirmará que las credenciales y la red funcionan.</p></div>
-    <div class="lang-en"><p>Save and click <span class="ruvic-button">Test connection</span> — the platform will connect to your database and confirm credentials and networking work.</p></div>
+      <h3 data-i18n="faq.q3">Rotación de credenciales</h3>
+      <p data-i18n="faq.a3">Recomendado cada 90 días o según tu política: cambia la contraseña en SQL Server (<code>ALTER LOGIN ruvic_reader WITH PASSWORD = '...';</code>), actualízala en el formulario del conector y pulsa <em>Probar conexión</em>.</p>
 
-    <div class="screenshot-placeholder">
-      <span class="lang-es">[ Captura: formulario del conector SQL Server en Settings → Conectores — reemplazar por assets/img/mssql-form.png ]</span>
-      <span class="lang-en">[ Screenshot: SQL Server connector form in Settings → Connectors — replace with assets/img/mssql-form.png ]</span>
-    </div>
-  </section>
+      <h3 data-i18n="faq.q4">¿Qué hago si la contraseña se compromete?</h3>
+      <ol>
+        <li data-i18n="faq.a4.li1">Cambia la contraseña en SQL Server de inmediato (<code>ALTER LOGIN ... WITH PASSWORD = ...</code>) o deshabilita el login (<code>ALTER LOGIN ruvic_reader DISABLE;</code>).</li>
+        <li data-i18n="faq.a4.li2">Revisa la actividad reciente del login en los logs del servidor / Extended Events.</li>
+        <li data-i18n="faq.a4.li3">Actualiza la nueva contraseña en el formulario del conector.</li>
+      </ol>
 
-  <!-- ============ 6. VERIFICACIÓN ============ -->
-  <section id="verificacion">
-    <h2><span class="lang-es">6. Verificación</span><span class="lang-en">6. Verification</span></h2>
+      <h3 data-i18n="faq.q5">¿Expiran las credenciales?</h3>
+      <p data-i18n="faq.a5">Por defecto no, salvo que el login se cree con <code>CHECK_EXPIRATION = ON</code> siguiendo la política de contraseñas de Windows. Si tu política exige expiración, actívala al crear o alterar el login y programa la rotación antes de esa fecha.</p>
 
-    <ol class="ruvic-steps">
-      <li>
-        <div class="lang-es"><strong>Test de conexión exitoso.</strong><p>El botón <em>Probar conexión</em> debe responder: <em>“Conexión exitosa a tu-host:1433/tu_base”</em>. La tarjeta del conector cambia a estado <strong>Configurado</strong>.</p></div>
-        <div class="lang-en"><strong>Successful connection test.</strong><p>The <em>Test connection</em> button should return: <em>“Successful connection to your-host:1433/your_db”</em>. The connector card switches to <strong>Configured</strong>.</p></div>
-      </li>
-      <li>
-        <div class="lang-es"><strong>Automatización mínima de prueba.</strong><p>Abre una conversación nueva con el agente y pídele:</p><blockquote><em>“Lista las tablas de la base de datos SQL Server y dime cuántas filas tiene cada una.”</em></blockquote><p>El agente debe responder con el listado real de tus tablas. Si lo hace, el conector quedó operativo de punta a punta.</p></div>
-        <div class="lang-en"><strong>Minimal test automation.</strong><p>Open a new conversation with the agent and ask:</p><blockquote><em>“List the tables in the SQL Server database and tell me how many rows each one has.”</em></blockquote><p>The agent should reply with your actual table list. If it does, the connector is fully operational.</p></div>
-      </li>
-    </ol>
-  </section>
+      <div class="callout callout-warning">
+        <span class="callout-title" data-i18n="faq.bp.title">Buenas prácticas</span>
+        <span data-i18n="faq.bp.body">Usa siempre un login dedicado y de solo lectura; restringe el acceso de red al mínimo necesario; no expongas esquemas con datos sensibles que el agente no necesite; y evita compartir la contraseña por canales no seguros.</span>
+      </div>
+    </section>
+  </main>
 
-  <!-- ============ 7. SOLUCIÓN DE PROBLEMAS ============ -->
-  <section id="problemas">
-    <h2><span class="lang-es">7. Solución de problemas</span><span class="lang-en">7. Troubleshooting</span></h2>
-
-    <table>
-      <thead>
-        <tr>
-          <th><span class="lang-es">Mensaje / síntoma</span><span class="lang-en">Message / symptom</span></th>
-          <th><span class="lang-es">Causa probable y solución</span><span class="lang-en">Likely cause and fix</span></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><span class="lang-es">“Autenticación fallida: usuario o contraseña inválidos”</span><span class="lang-en">“Authentication failed: invalid user or password”</span></td>
-          <td><span class="lang-es">Contraseña mal copiada, login inexistente, o la autenticación en modo mixto no está habilitada (revisa el paso 1 de la sección 3). Reintenta y vuelve a guardar el formulario (deja la contraseña vacía para conservar la anterior o escribe la nueva para reemplazarla).</span><span class="lang-en">Mistyped password, missing login, or mixed mode authentication is not enabled (review step 1 of section 3). Retry and re-save the form (leave the password empty to keep the previous one or type the new one to replace it).</span></td>
-        </tr>
-        <tr>
-          <td><span class="lang-es">“No se pudo conectar … (timeout)”</span><span class="lang-en">“Could not connect … (timeout)”</span></td>
-          <td><span class="lang-es">La plataforma no alcanza el host/puerto. Revisa el paso 5 (TCP/IP habilitado, firewall, security group) y que el host no sea <code>localhost</code> (debe ser accesible desde Ruvic, no desde tu equipo).</span><span class="lang-en">The platform cannot reach the host/port. Review step 5 (TCP/IP enabled, firewall, security group) and make sure the host is not <code>localhost</code> (it must be reachable from Ruvic, not from your laptop).</span></td>
-        </tr>
-        <tr>
-          <td><span class="lang-es">“La base de datos 'X' no existe”</span><span class="lang-en">“Database 'X' does not exist”</span></td>
-          <td><span class="lang-es">Nombre de base de datos mal escrito en el formulario, o el usuario no fue creado en esa base (recuerda: <code>CREATE USER</code> se ejecuta dentro de <code>USE tu_base_de_datos;</code>). Verifica con <code>SELECT name FROM sys.databases;</code>.</span><span class="lang-en">Database name mistyped in the form, or the user wasn't created in that database (remember: <code>CREATE USER</code> runs inside <code>USE tu_base_de_datos;</code>). Check with <code>SELECT name FROM sys.databases;</code>.</span></td>
-        </tr>
-        <tr>
-          <td><span class="lang-es">El agente ve las tablas pero “permission was denied” al leer una</span><span class="lang-en">The agent lists tables but gets “permission was denied” reading one</span></td>
-          <td><span class="lang-es">Falta el <code>GRANT SELECT</code> sobre ese esquema. Repite el paso 4 de la sección 3.</span><span class="lang-en">Missing <code>GRANT SELECT</code> on that schema. Redo step 4 of section 3.</span></td>
-        </tr>
-        <tr>
-          <td><span class="lang-es">“The user does not have permission to perform this action” al analizar un query</span><span class="lang-en">“The user does not have permission to perform this action” when analyzing a query</span></td>
-          <td><span class="lang-es">Falta <code>GRANT SHOWPLAN</code>. Repite el paso 4 de la sección 3.</span><span class="lang-en">Missing <code>GRANT SHOWPLAN</code>. Redo step 4 of section 3.</span></td>
-        </tr>
-        <tr>
-          <td><span class="lang-es">El conector aparece “Sin configurar” tras guardar</span><span class="lang-en">Connector shows “Not configured” after saving</span></td>
-          <td><span class="lang-es">Algún campo obligatorio quedó vacío. Ábrelo de nuevo y completa host, puerto, base de datos, usuario y contraseña.</span><span class="lang-en">A required field was left empty. Open it again and fill in host, port, database, user and password.</span></td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
-
-  <!-- ============ 8. FAQ Y SEGURIDAD ============ -->
-  <section id="faq">
-    <h2><span class="lang-es">8. Preguntas frecuentes y notas de seguridad</span><span class="lang-en">8. FAQ and security notes</span></h2>
-
-    <h3><span class="lang-es">¿El agente puede modificar o borrar datos?</span><span class="lang-en">Can the agent modify or delete data?</span></h3>
-    <div class="lang-es"><p>No. El login <code>ruvic_reader</code> solo tiene permiso <code>SELECT</code> y <code>SHOWPLAN</code>. El conector nunca ejecuta sentencias de escritura, y aunque lo intentara, el servidor la rechazaría por permisos.</p></div>
-    <div class="lang-en"><p>No. The <code>ruvic_reader</code> login only has <code>SELECT</code> and <code>SHOWPLAN</code> permission. The connector never issues write statements, and even if it tried, the server would reject it due to permissions.</p></div>
-
-    <h3><span class="lang-es">¿Dónde queda guardada la contraseña?</span><span class="lang-en">Where is the password stored?</span></h3>
-    <div class="lang-es"><p>Como secreto en el almacén de credenciales de la plataforma, asociado a tu usuario. La interfaz nunca vuelve a mostrarla; solo indica “definida”. Para cambiarla, escribe una nueva en el formulario; para conservarla al editar otros campos, deja el campo vacío.</p></div>
-    <div class="lang-en"><p>As a secret in the platform's credential store, tied to your user. The UI never displays it again; it only shows “set”. To change it, type a new one in the form; to keep it while editing other fields, leave the field empty.</p></div>
-
-    <h3><span class="lang-es">Rotación de credenciales</span><span class="lang-en">Credential rotation</span></h3>
-    <div class="lang-es"><p>Recomendado cada 90 días o según tu política: cambia la contraseña en SQL Server (<code>ALTER LOGIN ruvic_reader WITH PASSWORD = '...';</code>), actualízala en el formulario del conector y pulsa <em>Probar conexión</em>.</p></div>
-    <div class="lang-en"><p>Recommended every 90 days or per your policy: change the password in SQL Server (<code>ALTER LOGIN ruvic_reader WITH PASSWORD = '...';</code>), update it in the connector form and click <em>Test connection</em>.</p></div>
-
-    <h3><span class="lang-es">¿Qué hago si la contraseña se compromete?</span><span class="lang-en">What if the password is compromised?</span></h3>
-    <div class="lang-es"><ol><li>Cambia la contraseña en SQL Server de inmediato (<code>ALTER LOGIN ... WITH PASSWORD = ...</code>) o deshabilita el login (<code>ALTER LOGIN ruvic_reader DISABLE;</code>).</li><li>Revisa la actividad reciente del login en los logs del servidor / Extended Events.</li><li>Actualiza la nueva contraseña en el formulario del conector.</li></ol></div>
-    <div class="lang-en"><ol><li>Change the password in SQL Server immediately (<code>ALTER LOGIN ... WITH PASSWORD = ...</code>) or disable the login (<code>ALTER LOGIN ruvic_reader DISABLE;</code>).</li><li>Review the login's recent activity in the server logs / Extended Events.</li><li>Update the new password in the connector form.</li></ol></div>
-
-    <h3><span class="lang-es">¿Expiran las credenciales?</span><span class="lang-en">Do the credentials expire?</span></h3>
-    <div class="lang-es"><p>Por defecto no, salvo que el login se cree con <code>CHECK_EXPIRATION = ON</code> siguiendo la política de contraseñas de Windows. Si tu política exige expiración, actívala al crear o alterar el login y programa la rotación antes de esa fecha.</p></div>
-    <div class="lang-en"><p>By default no, unless the login is created with <code>CHECK_EXPIRATION = ON</code> following the Windows password policy. If your policy requires expiration, enable it when creating or altering the login and schedule rotation before that date.</p></div>
-
-    <div class="callout callout-warning">
-      <span class="callout-title"><span class="lang-es">Buenas prácticas</span><span class="lang-en">Best practices</span></span>
-      <span class="lang-es">Usa siempre un login dedicado y de solo lectura; restringe el acceso de red al mínimo necesario; no expongas esquemas con datos sensibles que el agente no necesite; y evita compartir la contraseña por canales no seguros.</span>
-      <span class="lang-en">Always use a dedicated read-only login; restrict network access to the minimum necessary; do not expose schemas with sensitive data the agent doesn't need; and never share the password over insecure channels.</span>
-    </div>
-  </section>
-
-</main>
-
-<footer class="ruvic-footer">
-  <div class="tagline">Opera, factura, escala — aunque tu equipo no esté</div>
-  <div>Ruvic Engine · @ruvic_ai</div>
-</footer>
-
-<script>
-  // Toggle de idioma ES/EN — parte de la plantilla, no modificar.
-  (function () {
-    var buttons = document.querySelectorAll("[data-set-lang]");
-    function setLang(lang) {
-      document.documentElement.setAttribute("data-lang", lang);
-      document.documentElement.setAttribute("lang", lang);
-      buttons.forEach(function (btn) {
-        btn.classList.toggle("active", btn.getAttribute("data-set-lang") === lang);
-      });
-      try { localStorage.setItem("ruvic-docs-lang", lang); } catch (e) {}
-    }
-    buttons.forEach(function (btn) {
-      btn.addEventListener("click", function () {
-        setLang(btn.getAttribute("data-set-lang"));
-      });
-    });
-    try {
-      var saved = localStorage.getItem("ruvic-docs-lang");
-      if (saved === "en" || saved === "es") setLang(saved);
-    } catch (e) {}
-  })();
-</script>
-
+  <script>
+    const I18N = {
+      es: {
+        doc_title: "Conector SQL Server — Ruvic",
+        toc_title: "Contenido",
+        "toc.que_es": "¿Qué es y para qué sirve?",
+        "toc.prerrequisitos": "Prerrequisitos",
+        "toc.configuracion_fabricante": "Configuración en el fabricante",
+        "toc.permisos": "Permisos requeridos",
+        "toc.configuracion_ruvic": "Configuración en Ruvic",
+        "toc.verificacion": "Verificación",
+        "toc.solucion_problemas": "Solución de problemas",
+        "toc.faq_seguridad": "Preguntas frecuentes y notas de seguridad",
+        guide_title: "SQL Server",
+        "section.que_es": "¿Qué es y para qué sirve?",
+        "que_es.body": "El conector SQL Server permite que el agente de Ruvic acceda a tu base de datos en modo solo lectura: puede consultar información, pero nunca modificarla. Una vez configurado, puedes pedirle al agente cosas como:",
+        "que_es.ej1": "“Genera un reporte con las ventas del último trimestre y envíalo por correo.”",
+        "que_es.ej2": "“¿Cuántos clientes nuevos se registraron esta semana?”",
+        "que_es.ej3": "“Revisa por qué este query está lento y proponme mejoras.”",
+        "que_es.ops": "Operaciones soportadas:",
+        "table.operacion": "Operación",
+        "table.que_hace": "Qué hace",
+        "ops.list_tables": "Lista las tablas de la base de datos con su cantidad de filas",
+        "ops.read": "Lee los datos de una tabla (con límite de filas)",
+        "ops.stats": "Estadísticas de una tabla: filas, tamaño, columnas y tipos",
+        "ops.explain": "Analiza el plan ESTIMADO de ejecución de una consulta sin ejecutarla",
+        "que_es.callout.title": "Solo lectura, por diseño",
+        "que_es.callout.body": "El login dedicado del conector solo tiene permiso SELECT (y SHOWPLAN para analizar queries). Aunque el agente lo intentara, el servidor rechazaría cualquier escritura.",
+        "section.prerrequisitos": "Prerrequisitos",
+        "prer.db": "Una instancia de Microsoft SQL Server 2016 o superior (on-premise, Azure SQL Database/Managed Instance, AWS RDS for SQL Server, o Docker).",
+        "prer.admin": "Acceso administrativo a la instancia (rol sysadmin o equivalente), solo durante la configuración inicial.",
+        "prer.mixed": "Autenticación en modo mixto habilitada (SQL Server and Windows Authentication mode) — el conector usa usuario/contraseña, no autenticación de Windows.",
+        "prer.red": "Acceso de red desde la plataforma Ruvic al servidor (host y puerto alcanzables; regla de firewall si aplica).",
+        "prer.datos": "Los datos de conexión: host, puerto (por defecto 1433) y nombre de la base de datos.",
+        "section.configuracion_fabricante": "Configuración en el fabricante",
+        "fab.intro": "Vas a crear un login dedicado de solo lectura para Ruvic. No uses el login sa ni el de tu aplicación: un login dedicado permite auditar la actividad del agente y limitar el acceso al mínimo.",
+        "fab.p1.t": "Habilita la autenticación en modo mixto (si no lo está).",
+        "fab.p1.b": "En SQL Server Management Studio (SSMS): clic derecho sobre el servidor → Properties → Security → selecciona SQL Server and Windows Authentication mode → Aceptar → reinicia el servicio de SQL Server.",
+        "fab.p1.img": "[ Captura: pantalla de Security en Server Properties con el modo mixto seleccionado — reemplazar por assets/img/mssql-mixed-mode.png ]",
+        "fab.p2.t": "Conéctate a la instancia como administrador.",
+        "fab.p2.b": "Usa SSMS, Azure Data Studio o sqlcmd con un login administrador:",
+        "fab.p3.t": "Crea el login y el usuario de solo lectura para Ruvic.",
+        "fab.p3.b": "Elige una contraseña fuerte (mínimo 16 caracteres, generada aleatoriamente; SQL Server exige que cumpla la política de complejidad) y guárdala: la usarás en el formulario de Ruvic (campo Contraseña).",
+        "fab.p4.t": "Otorga los permisos de lectura y de plan de ejecución.",
+        "fab.p4.b": "Sobre el esquema que quieras exponer al agente (el ejemplo usa dbo; repite para otros esquemas):",
+        "fab.p4.note.title": "Nota",
+        "fab.p4.note.body": "GRANT SELECT ON SCHEMA::dbo aplica automáticamente a las tablas que se creen después en ese esquema, sin repetir el GRANT. SHOWPLAN permite ver el plan de un query sin ejecutarlo ni dar permiso de escritura.",
+        "fab.p5.t": "Habilita el protocolo TCP/IP y el acceso de red desde Ruvic.",
+        "fab.p5.b": "Muchas instalaciones traen TCP/IP deshabilitado por defecto:",
+        "fab.p5.li1": "Servidor propio: abre SQL Server Configuration Manager → SQL Server Network Configuration → Protocols for [tu instancia] → habilita TCP/IP → reinicia el servicio. Luego permite el puerto 1433 en el firewall de Windows para la IP de Ruvic.",
+        "fab.p5.li2": "Azure SQL / AWS RDS: agrega la IP de la plataforma Ruvic en el firewall de Azure SQL o en el security group de RDS.",
+        "fab.p5.img": "[ Captura: SQL Server Configuration Manager con TCP/IP habilitado — reemplazar por assets/img/mssql-tcpip.png ]",
+        "fab.p6.t": "Verifica el login desde fuera del servidor.",
+        "fab.p6.b": "Desde una máquina distinta al servidor de BD (idealmente con salida de red similar a la de Ruvic):",
+        "fab.p6.result": "Si responde 1, el fabricante quedó listo. Anota estos valores para la siguiente sección: host, puerto, base de datos, usuario y contraseña.",
+        "section.permisos": "Permisos requeridos",
+        "perm.intro": "Principio de mínimo privilegio: el login de Ruvic solo necesita estos permisos. No otorgues roles sysadmin, db_owner, de escritura ni de administración.",
+        "table.permiso": "Permiso",
+        "table.para_que": "Para qué sirve",
+        "perm.select.scope": "(por esquema)",
+        "perm.select.body": "Leer datos (db.read), contar filas y calcular estadísticas (db.stats)",
+        "perm.showplan.body": "Compilar y ver el plan estimado de un query sin ejecutarlo (db.explain)",
+        "perm.catalog": "Las vistas de catálogo que usa el conector (sys.tables, sys.columns, sys.partitions, sys.allocation_units) son visibles para cualquier login con algún permiso sobre el objeto correspondiente; no requieren VIEW SERVER STATE ni permisos adicionales.",
+        "section.configuracion_ruvic": "Configuración en Ruvic",
+        "ruvic.intro": "Entra a Settings → Conectores, busca la tarjeta SQL Server y pulsa Configurar. Diligencia el formulario con los valores que obtuviste en la sección anterior:",
+        "table.campo": "Campo del formulario",
+        "table.valor": "Valor",
+        "ruvic.f.host": "Host",
+        "ruvic.v.host": "Hostname o IP del servidor (ej. db.empresa.com)",
+        "ruvic.f.puerto": "Puerto",
+        "ruvic.v.puerto": "(salvo configuración distinta)",
+        "ruvic.f.bd": "Base de datos",
+        "ruvic.v.bd": "Nombre de la base de datos a consultar",
+        "ruvic.f.usuario": "Usuario",
+        "ruvic.f.pass": "Contraseña",
+        "ruvic.v.pass": "La contraseña del paso 3. Se guarda cifrada como secreto: la interfaz no volverá a mostrarla",
+        "ruvic.f.timeout": "Timeout de conexión",
+        "ruvic.v.timeout": "Opcional; 10 segundos por defecto",
+        "ruvic.save": "Guarda y pulsa Probar conexión — la plataforma se conectará a tu base de datos y confirmará que las credenciales y la red funcionan.",
+        "ruvic.img": "[ Captura: formulario del conector SQL Server en Settings → Conectores — reemplazar por assets/img/mssql-form.png ]",
+        "section.verificacion": "Verificación",
+        "ver.p1.t": "Test de conexión exitoso.",
+        "ver.p1.b": "El botón Probar conexión debe responder: “Conexión exitosa a tu-host:1433/tu_base”. La tarjeta del conector cambia a estado Configurado.",
+        "ver.p2.t": "Automatización mínima de prueba.",
+        "ver.p2.b": "Abre una conversación nueva con el agente y pídele: “Lista las tablas de la base de datos SQL Server y dime cuántas filas tiene cada una.” El agente debe responder con el listado real de tus tablas. Si lo hace, el conector quedó operativo de punta a punta.",
+        "section.solucion_problemas": "Solución de problemas",
+        "table.sintoma": "Mensaje / síntoma",
+        "table.causa": "Causa probable y solución",
+        "prob.s1": "“Autenticación fallida: usuario o contraseña inválidos”",
+        "prob.c1": "Contraseña mal copiada, login inexistente, o la autenticación en modo mixto no está habilitada (revisa el paso 1 de la sección 3). Reintenta y vuelve a guardar el formulario (deja la contraseña vacía para conservar la anterior o escribe la nueva para reemplazarla).",
+        "prob.s2": "“No se pudo conectar … (timeout)”",
+        "prob.c2": "La plataforma no alcanza el host/puerto. Revisa el paso 5 (TCP/IP habilitado, firewall, security group) y que el host no sea localhost (debe ser accesible desde Ruvic, no desde tu equipo).",
+        "prob.s3": "“La base de datos 'X' no existe”",
+        "prob.c3": "Nombre de base de datos mal escrito en el formulario, o el usuario no fue creado en esa base (recuerda: CREATE USER se ejecuta dentro de USE tu_base_de_datos;). Verifica con SELECT name FROM sys.databases;.",
+        "prob.s4": "El agente ve las tablas pero “permission was denied” al leer una",
+        "prob.c4": "Falta el GRANT SELECT sobre ese esquema. Repite el paso 4 de la sección 3.",
+        "prob.s5": "“The user does not have permission to perform this action” al analizar un query",
+        "prob.c5": "Falta GRANT SHOWPLAN. Repite el paso 4 de la sección 3.",
+        "prob.s6": "El conector aparece “Sin configurar” tras guardar",
+        "prob.c6": "Algún campo obligatorio quedó vacío. Ábrelo de nuevo y completa host, puerto, base de datos, usuario y contraseña.",
+        "section.faq_seguridad": "Preguntas frecuentes y notas de seguridad",
+        "faq.q1": "¿El agente puede modificar o borrar datos?",
+        "faq.a1": "No. El login ruvic_reader solo tiene permiso SELECT y SHOWPLAN. El conector nunca ejecuta sentencias de escritura, y aunque lo intentara, el servidor la rechazaría por permisos.",
+        "faq.q2": "¿Dónde queda guardada la contraseña?",
+        "faq.a2": "Como secreto en el almacén de credenciales de la plataforma, asociado a tu usuario. La interfaz nunca vuelve a mostrarla; solo indica “definida”. Para cambiarla, escribe una nueva en el formulario; para conservarla al editar otros campos, deja el campo vacío.",
+        "faq.q3": "Rotación de credenciales",
+        "faq.a3": "Recomendado cada 90 días o según tu política: cambia la contraseña en SQL Server (ALTER LOGIN ruvic_reader WITH PASSWORD = '...';), actualízala en el formulario del conector y pulsa Probar conexión.",
+        "faq.q4": "¿Qué hago si la contraseña se compromete?",
+        "faq.a4.li1": "Cambia la contraseña en SQL Server de inmediato (ALTER LOGIN ... WITH PASSWORD = ...) o deshabilita el login (ALTER LOGIN ruvic_reader DISABLE;).",
+        "faq.a4.li2": "Revisa la actividad reciente del login en los logs del servidor / Extended Events.",
+        "faq.a4.li3": "Actualiza la nueva contraseña en el formulario del conector.",
+        "faq.q5": "¿Expiran las credenciales?",
+        "faq.a5": "Por defecto no, salvo que el login se cree con CHECK_EXPIRATION = ON siguiendo la política de contraseñas de Windows. Si tu política exige expiración, actívala al crear o alterar el login y programa la rotación antes de esa fecha.",
+        "faq.bp.title": "Buenas prácticas",
+        "faq.bp.body": "Usa siempre un login dedicado y de solo lectura; restringe el acceso de red al mínimo necesario; no expongas esquemas con datos sensibles que el agente no necesite; y evita compartir la contraseña por canales no seguros.",
+      },
+      en: {
+        doc_title: "SQL Server Connector — Ruvic",
+        toc_title: "Contents",
+        "toc.que_es": "What it is and what it’s for",
+        "toc.prerrequisitos": "Prerequisites",
+        "toc.configuracion_fabricante": "Vendor / provider setup",
+        "toc.permisos": "Required permissions",
+        "toc.configuracion_ruvic": "Configuration in Ruvic",
+        "toc.verificacion": "Verification",
+        "toc.solucion_problemas": "Troubleshooting",
+        "toc.faq_seguridad": "FAQ and security notes",
+        guide_title: "SQL Server",
+        "section.que_es": "What it is and what it’s for",
+        "que_es.body": "The SQL Server connector lets the Ruvic agent access your database in read-only mode: it can query information but never modify it. Once configured, you can ask the agent things like:",
+        "que_es.ej1": "“Build a report with last quarter's sales and email it.”",
+        "que_es.ej2": "“How many new customers signed up this week?”",
+        "que_es.ej3": "“Check why this query is slow and suggest improvements.”",
+        "que_es.ops": "Supported operations:",
+        "table.operacion": "Operation",
+        "table.que_hace": "What it does",
+        "ops.list_tables": "Lists the database tables with their row counts",
+        "ops.read": "Reads data from a table (with a row limit)",
+        "ops.stats": "Table statistics: rows, size, columns and types",
+        "ops.explain": "Analyzes a query's ESTIMATED execution plan without running it",
+        "que_es.callout.title": "Read-only by design",
+        "que_es.callout.body": "The connector's dedicated login only has SELECT permission (and SHOWPLAN to analyze queries). Even if the agent tried, the server would reject any write.",
+        "section.prerrequisitos": "Prerequisites",
+        "prer.db": "A Microsoft SQL Server 2016+ instance (on-premise, Azure SQL Database/Managed Instance, AWS RDS for SQL Server, or Docker).",
+        "prer.admin": "Administrative access to the instance (sysadmin role or equivalent), only during initial setup.",
+        "prer.mixed": "Mixed mode authentication enabled (SQL Server and Windows Authentication mode) — the connector uses username/password, not Windows authentication.",
+        "prer.red": "Network access from the Ruvic platform to the server (reachable host and port; firewall rule if applicable).",
+        "prer.datos": "The connection details: host, port (default 1433) and database name.",
+        "section.configuracion_fabricante": "Vendor / provider setup",
+        "fab.intro": "You will create a dedicated read-only login for Ruvic. Do not reuse the sa login or an application login: a dedicated login lets you audit the agent's activity and keep access to a minimum.",
+        "fab.p1.t": "Enable mixed mode authentication (if not already).",
+        "fab.p1.b": "In SQL Server Management Studio (SSMS): right-click the server → Properties → Security → select SQL Server and Windows Authentication mode → OK → restart the SQL Server service.",
+        "fab.p1.img": "[ Screenshot: Security page in Server Properties with mixed mode selected — replace with assets/img/mssql-mixed-mode.png ]",
+        "fab.p2.t": "Connect to the instance as an administrator.",
+        "fab.p2.b": "Use SSMS, Azure Data Studio or sqlcmd with an admin login:",
+        "fab.p3.t": "Create the read-only login and user for Ruvic.",
+        "fab.p3.b": "Choose a strong password (16+ random characters; SQL Server enforces its complexity policy) and save it: you will paste it into the Ruvic form (Password field).",
+        "fab.p4.t": "Grant read and execution-plan permissions.",
+        "fab.p4.b": "On the schema you want to expose to the agent (the example uses dbo; repeat for other schemas):",
+        "fab.p4.note.title": "Note",
+        "fab.p4.note.body": "GRANT SELECT ON SCHEMA::dbo automatically covers tables created afterwards in that schema, without re-running the GRANT. SHOWPLAN allows viewing a query's plan without executing it or granting write access.",
+        "fab.p5.t": "Enable the TCP/IP protocol and network access from Ruvic.",
+        "fab.p5.b": "Many installations ship with TCP/IP disabled by default:",
+        "fab.p5.li1": "Self-hosted: open SQL Server Configuration Manager → SQL Server Network Configuration → Protocols for [your instance] → enable TCP/IP → restart the service. Then allow port 1433 in the Windows firewall for the Ruvic IP.",
+        "fab.p5.li2": "Azure SQL / AWS RDS: add the Ruvic platform IP to the Azure SQL firewall or the RDS security group.",
+        "fab.p5.img": "[ Screenshot: SQL Server Configuration Manager with TCP/IP enabled — replace with assets/img/mssql-tcpip.png ]",
+        "fab.p6.t": "Verify the login from outside the server.",
+        "fab.p6.b": "From a machine other than the DB server (ideally with network egress similar to Ruvic's):",
+        "fab.p6.result": "If it returns 1, the vendor side is ready. Write down these values for the next section: host, port, database, user and password.",
+        "section.permisos": "Required permissions",
+        "perm.intro": "Least-privilege principle: the Ruvic login only needs these permissions. Do not grant sysadmin, db_owner, write or admin roles.",
+        "table.permiso": "Permission",
+        "table.para_que": "Why it's needed",
+        "perm.select.scope": "(per schema)",
+        "perm.select.body": "Read data (db.read), count rows and compute statistics (db.stats)",
+        "perm.showplan.body": "Compile and view a query's estimated plan without executing it (db.explain)",
+        "perm.catalog": "The catalog views the connector uses (sys.tables, sys.columns, sys.partitions, sys.allocation_units) are visible to any login with some permission on the corresponding object; they don't require VIEW SERVER STATE or extra permissions.",
+        "section.configuracion_ruvic": "Configuration in Ruvic",
+        "ruvic.intro": "Go to Settings → Connectors, find the SQL Server card and click Configure. Fill in the form with the values from the previous section:",
+        "table.campo": "Form field",
+        "table.valor": "Value",
+        "ruvic.f.host": "Host",
+        "ruvic.v.host": "Server hostname or IP (e.g. db.company.com)",
+        "ruvic.f.puerto": "Port",
+        "ruvic.v.puerto": "(unless configured otherwise)",
+        "ruvic.f.bd": "Database",
+        "ruvic.v.bd": "Name of the database to query",
+        "ruvic.f.usuario": "Username",
+        "ruvic.f.pass": "Password",
+        "ruvic.v.pass": "The password from step 3. Stored as a secret: the UI will never display it again",
+        "ruvic.f.timeout": "Connection timeout",
+        "ruvic.v.timeout": "Optional; defaults to 10 seconds",
+        "ruvic.save": "Save and click Test connection — the platform will connect to your database and confirm credentials and networking work.",
+        "ruvic.img": "[ Screenshot: SQL Server connector form in Settings → Connectors — replace with assets/img/mssql-form.png ]",
+        "section.verificacion": "Verification",
+        "ver.p1.t": "Successful connection test.",
+        "ver.p1.b": "The Test connection button should return: “Successful connection to your-host:1433/your_db”. The connector card switches to Configured.",
+        "ver.p2.t": "Minimal test automation.",
+        "ver.p2.b": "Open a new conversation with the agent and ask: “List the tables in the SQL Server database and tell me how many rows each one has.” The agent should reply with your actual table list. If it does, the connector is fully operational.",
+        "section.solucion_problemas": "Troubleshooting",
+        "table.sintoma": "Message / symptom",
+        "table.causa": "Likely cause and fix",
+        "prob.s1": "“Authentication failed: invalid user or password”",
+        "prob.c1": "Mistyped password, missing login, or mixed mode authentication is not enabled (review step 1 of section 3). Retry and re-save the form (leave the password empty to keep the previous one or type the new one to replace it).",
+        "prob.s2": "“Could not connect … (timeout)”",
+        "prob.c2": "The platform cannot reach the host/port. Review step 5 (TCP/IP enabled, firewall, security group) and make sure the host is not localhost (it must be reachable from Ruvic, not from your laptop).",
+        "prob.s3": "“Database 'X' does not exist”",
+        "prob.c3": "Database name mistyped in the form, or the user wasn't created in that database (remember: CREATE USER runs inside USE tu_base_de_datos;). Check with SELECT name FROM sys.databases;.",
+        "prob.s4": "The agent lists tables but gets “permission was denied” reading one",
+        "prob.c4": "Missing GRANT SELECT on that schema. Redo step 4 of section 3.",
+        "prob.s5": "“The user does not have permission to perform this action” when analyzing a query",
+        "prob.c5": "Missing GRANT SHOWPLAN. Redo step 4 of section 3.",
+        "prob.s6": "Connector shows “Not configured” after saving",
+        "prob.c6": "A required field was left empty. Open it again and fill in host, port, database, user and password.",
+        "section.faq_seguridad": "FAQ and security notes",
+        "faq.q1": "Can the agent modify or delete data?",
+        "faq.a1": "No. The ruvic_reader login only has SELECT and SHOWPLAN permission. The connector never issues write statements, and even if it tried, the server would reject it due to permissions.",
+        "faq.q2": "Where is the password stored?",
+        "faq.a2": "As a secret in the platform's credential store, tied to your user. The UI never displays it again; it only shows “set”. To change it, type a new one in the form; to keep it while editing other fields, leave the field empty.",
+        "faq.q3": "Credential rotation",
+        "faq.a3": "Recommended every 90 days or per your policy: change the password in SQL Server (ALTER LOGIN ruvic_reader WITH PASSWORD = '...';), update it in the connector form and click Test connection.",
+        "faq.q4": "What if the password is compromised?",
+        "faq.a4.li1": "Change the password in SQL Server immediately (ALTER LOGIN ... WITH PASSWORD = ...) or disable the login (ALTER LOGIN ruvic_reader DISABLE;).",
+        "faq.a4.li2": "Review the login's recent activity in the server logs / Extended Events.",
+        "faq.a4.li3": "Update the new password in the connector form.",
+        "faq.q5": "Do the credentials expire?",
+        "faq.a5": "By default no, unless the login is created with CHECK_EXPIRATION = ON following the Windows password policy. If your policy requires expiration, enable it when creating or altering the login and schedule rotation before that date.",
+        "faq.bp.title": "Best practices",
+        "faq.bp.body": "Always use a dedicated read-only login; restrict network access to the minimum necessary; do not expose schemas with sensitive data the agent doesn't need; and never share the password over insecure channels.",
+      },
+    };
+    /* El portal aplica el idioma del usuario (localStorage ruvic-docs-lang)
+       y actualiza [data-i18n], [data-i18n-placeholder] y [data-i18n-alt]. */
+  </script>
 </body>
 </html>
