@@ -1,9 +1,14 @@
 {
   "id": "mssql",
   "name": "SQL Server",
+  "name_en": "SQL Server",
   "version": "1.0.0",
   "description": "Consulta de solo lectura a bases de datos Microsoft SQL Server: tablas, datos, estadísticas y plan estimado de queries",
+  "description_en": "Read-only queries against Microsoft SQL Server databases: tables, data, statistics and estimated query plans",
+  "icon": "icon.svg",
   "category": "database",
+  "category_en": "database",
+  "keywords": ["sql server", "mssql", "sql", "database", "base de datos", "solo lectura", "read-only"],
   "library": {
     "package": "ruvic-mssql-connector",
     "install": "pip install git+https://github.com/Dgirto/SQL-Server.git#subdirectory=lib",
