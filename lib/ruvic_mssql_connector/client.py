@@ -60,11 +60,21 @@ def _human_size(kilobytes: int | None) -> str:
 
 def _validate_identifier(name: str, kind: str) -> None:
     """Valida nombres de tabla/esquema para evitar inyección SQL."""
-    if not _IDENTIFIER_RE.match(name):
+    if not isinstance(name, str) or not _IDENTIFIER_RE.match(name):
         raise MssqlDataError(
             f"Nombre de {kind} inválido: {name!r}. "
             "Solo se permiten letras, números y guion bajo."
         )
+
+
+def _validate_limit(limit: Any, max_limit: int) -> int:
+    """Convierte y acota `limit`, sin dejar escapar TypeError/ValueError crudos."""
+    try:
+        return max(1, min(int(limit), max_limit))
+    except (TypeError, ValueError) as exc:
+        raise MssqlDataError(
+            f"limit inválido: {limit!r}. Debe ser un número entero."
+        ) from exc
 
 
 def _wrap_driver_error(exc: Exception, not_found_message: str) -> MssqlConnectorError:
@@ -253,7 +263,7 @@ class MssqlClient:
         """
         _validate_identifier(table, "tabla")
         _validate_identifier(schema, "esquema")
-        limit = max(1, min(int(limit), 10_000))
+        limit = _validate_limit(limit, 10_000)
         query = f"SELECT TOP ({limit}) * FROM [{schema}].[{table}]"
         conn = self._connect()
         try:
