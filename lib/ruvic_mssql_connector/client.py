@@ -28,6 +28,13 @@ from .exceptions import (
 from .logging_utils import get_logger
 
 _IDENTIFIER_RE = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
+_STRING_LITERAL_RE = re.compile(r"'(?:[^']|'')*'")
+
+
+def _has_multiple_statements(sql: str) -> bool:
+    """Detecta un ';' que separa sentencias reales, ignorando los que
+    aparecen dentro de literales de texto (ej. WHERE nota = 'a; b')."""
+    return ";" in _STRING_LITERAL_RE.sub("", sql)
 
 _SHOWPLAN_NS = {"sp": "http://schemas.microsoft.com/sqlserver/2004/07/showplan"}
 
@@ -387,7 +394,7 @@ class MssqlClient:
             {'total_cost': 0.0328, 'estimated_rows': 8912.0, 'plan_xml': '...'}
         """
         statement = query.strip().rstrip(";")
-        if ";" in statement:
+        if _has_multiple_statements(statement):
             raise MssqlDataError(
                 "Solo se permite analizar un statement a la vez (sin ';')."
             )
